@@ -6,6 +6,7 @@ TagManager:
   tags:
   - EventSystem
   - GameManager
+  - CanvasUI
   layers:
   - Default
   - TransparentFX

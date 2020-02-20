@@ -16,6 +16,6 @@ public class ControllerRaycast : MonoBehaviour
     void Update()
     {
         lr.SetPosition(0, transform.position);
-        lr.SetPosition(1, transform.up);
+        lr.SetPosition(1, transform.forward);
     }
 }
