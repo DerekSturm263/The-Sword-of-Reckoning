@@ -4,17 +4,18 @@ using UnityEngine;
 
 public class ControllerRaycast : MonoBehaviour
 {
+    public GameObject gameManager;
     public LineRenderer lr;
-    public Vector3 pointEnd;
 
     void Start()
     {
         lr = GetComponent<LineRenderer>();
+        gameManager = GameObject.FindGameObjectWithTag("GameManager");
     }
 
     void Update()
     {
         lr.SetPosition(0, transform.position);
-        lr.SetPosition(1, Vector3.forward * 2);
+        lr.SetPosition(1, transform.up);
     }
 }
