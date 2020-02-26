@@ -2,24 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.EventSystems;
 
 public class UIScript : MonoBehaviour
 {
-    public EventSystem eventSystem;
     public GameObject gameManager;
 
     void Start()
     {
-        eventSystem = GameObject.FindGameObjectWithTag("EventSystem").GetComponent<EventSystem>();
         gameManager = GameObject.FindGameObjectWithTag("GameManager");
-    }
-
-    void Update()
-    {
-        /*RaycastHit hit;
-
-        eventSystem.SetSelectedGameObject();*/
     }
 
     // Method for the button. Runs the Play() method from the GameManager script.
@@ -31,7 +21,7 @@ public class UIScript : MonoBehaviour
     // Method for the button. Makes the settings panel visible.
     public void LaunchSettings()
     {
-
+        gameManager.GetComponent<GameManager>().OpenSettings();
     }
 
     // Method for the button. Takes the user to the credits scene.

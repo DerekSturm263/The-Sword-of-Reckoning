@@ -4,25 +4,51 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public CanvasGroup ui;
+    public CanvasGroup mainUI;
+    public CanvasGroup settingsUI;
+
+    // Music related settings.
+    public float sfxVolume = 1f;
+    public float musicVolume = 1f;
+
+    // Gameplay related settings.
+    public bool gestureControls = true;
+
+    // Cheats related settings;
+    public bool cantLose = false;
+    public bool infiniteMana = false;
+    public bool weakEnemies = false;
+    public bool swordAtStart = false;
+    public int startLevel = 1;
+
+    public bool isSettingsOpen = false;
 
     void Start()
     {
-        ui = GameObject.FindGameObjectWithTag("CanvasUI").GetComponent<CanvasGroup>();
-    }
-
-    void Update()
-    {
-        
+        mainUI = GameObject.FindGameObjectWithTag("CanvasUI").GetComponent<CanvasGroup>();
+        settingsUI = GameObject.FindGameObjectWithTag("SettingsUI").GetComponent<CanvasGroup>();
     }
 
     public void Play()
     {
-        ui.GetComponent<AudioSource>().Play();
-        StartCoroutine(FadeLerp());
+        mainUI.GetComponent<AudioSource>().Play();
+
+        StartCoroutine(FadeOutLerp(mainUI));
     }
 
-    private IEnumerator FadeLerp()
+    public void OpenSettings()
+    {
+        isSettingsOpen = true;
+        StartCoroutine(FadeInLerp(settingsUI));
+    }
+
+    public void CloseSettings()
+    {
+        isSettingsOpen = false;
+        StartCoroutine(FadeOutLerp(settingsUI));
+    }
+
+    private IEnumerator FadeOutLerp(CanvasGroup ui)
     {
         ui.interactable = false;
         ui.blocksRaycasts = false;
@@ -34,5 +60,19 @@ public class GameManager : MonoBehaviour
         }
 
         ui.alpha = 0f;
+    }
+
+    private IEnumerator FadeInLerp(CanvasGroup ui)
+    {
+        ui.interactable = true;
+        ui.blocksRaycasts = true;
+
+        for (int i = 100; i > 0; i--)
+        {
+            ui.alpha += 0.01f;
+            yield return new WaitForEndOfFrame();
+        }
+
+        ui.alpha = 1f;
     }
 }
