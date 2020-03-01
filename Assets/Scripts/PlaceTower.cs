@@ -2,36 +2,32 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[ExecuteInEditMode]
 public class PlaceTower : MonoBehaviour
 {
     public GameObject selectedTower;
-    public Transform selectionPos;
+    public Vector3 selectionPos;
 
-    public bool isPointingAtSurface;
+    [SerializeField] private bool isPointingAtSurface;
 
-    void Start()
-    {
-        
-    }
+    public OVRInput.Button placeButton;
 
     void Update()
     {
-        Ray controllerRay = new Ray(transform.position, transform.forward);
+        Ray controllerRay = new Ray(transform.position + transform.forward * 0.1f, transform.forward);
         RaycastHit hit;
+        LayerMask mask = LayerMask.GetMask("Environment");
 
-        Debug.DrawRay(transform.position, transform.forward, Color.blue);
-
-        if (Physics.Raycast(controllerRay, out hit))
+        if (Physics.Raycast(controllerRay, out hit, 10f, mask))
         {
-            if (hit.collider.gameObject.CompareTag("Environment"))
-            {
-                // Set selectionPos to where the Raycast crosses the ground.
-            }
+            isPointingAtSurface = true;
+
+            selectionPos = hit.point;
         }
-
-        if (isPointingAtSurface && OVRInput.GetDown(OVRInput.Button.SecondaryIndexTrigger))
+        
+        if (isPointingAtSurface && OVRInput.GetDown(placeButton))
         {
-            // Instantiate selectedTower at selectionPos.
+            Instantiate(selectedTower, selectionPos, new Quaternion(0, 0, 0, 0));
         }
     }
 }

@@ -8,12 +8,12 @@ using UnityEngine.UI;
 public class ControllerRaycast : MonoBehaviour
 {
     private GameObject gameManager;
-
     private EventSystem eventSystem;
-    public GameObject selected;
 
-    public LineRenderer lineRenderer;
-    public Vector3 lineRenderEndPos;
+    [SerializeField] private GameObject selected;
+
+    private LineRenderer lineRenderer;
+    private Vector3 lineRenderEndPos;
 
     void Start()
     {
@@ -35,8 +35,6 @@ public class ControllerRaycast : MonoBehaviour
 
         if (Physics.Raycast(controllerRay, out hit, 100f, mask))
         {
-            Debug.Log(hit.collider.gameObject.name);
-
             selected = hit.collider.gameObject;
             eventSystem.SetSelectedGameObject(gameManager.GetComponent<GameManager>().selectingController.GetComponent<ControllerRaycast>().selected);
         }
