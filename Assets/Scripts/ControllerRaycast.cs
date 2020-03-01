@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-[ExecuteInEditMode]
 public class ControllerRaycast : MonoBehaviour
 {
     private GameObject gameManager;
@@ -36,12 +35,12 @@ public class ControllerRaycast : MonoBehaviour
         if (Physics.Raycast(controllerRay, out hit, 100f, mask))
         {
             selected = hit.collider.gameObject;
-            eventSystem.SetSelectedGameObject(gameManager.GetComponent<GameManager>().selectingController.GetComponent<ControllerRaycast>().selected);
+            eventSystem.SetSelectedGameObject(gameManager.GetComponent<GameManager>().activeController.GetComponent<ControllerRaycast>().selected);
         }
 
         if (OVRInput.GetDown(OVRInput.Button.Any))
         {
-            gameManager.GetComponent<GameManager>().selectingController = this.gameObject;
+            gameManager.GetComponent<GameManager>().activeController = this.gameObject;
         }
     }
 }

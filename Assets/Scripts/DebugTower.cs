@@ -2,14 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[ExecuteInEditMode]
 public class DebugTower : MonoBehaviour
 {
-    public GameObject leftController;
-    public GameObject rightController;
+    private GameObject gameManager;
 
     void Update()
     {
-        transform.position = leftController.GetComponent<PlaceTower>().selectionPos;
+        transform.position = gameManager.GetComponent<GameManager>().activeController.GetComponent<PlaceTower>().selectionPos;
     }
 }

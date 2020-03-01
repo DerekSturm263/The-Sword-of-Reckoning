@@ -25,17 +25,17 @@ public class GameManager : MonoBehaviour
 
     [Header("Game Data")]
 
+    public GameObject activeController;
     public uint currentLevel = 0;
     public uint score = 0;
     public float maxMana = 100;
     public float currentMana = 100;
-    public GameObject selectingController;
 
     void Start()
     {
         mainUI = GameObject.FindGameObjectWithTag("CanvasUI").GetComponent<CanvasGroup>();
         settingsUI = GameObject.FindGameObjectWithTag("SettingsUI").GetComponent<CanvasGroup>();
-        selectingController = GameObject.FindGameObjectWithTag("RightController");
+        activeController = GameObject.FindGameObjectWithTag("RightController");
     }
 
     #region Button Methods

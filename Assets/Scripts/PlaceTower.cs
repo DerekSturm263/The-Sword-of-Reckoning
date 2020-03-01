@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[ExecuteInEditMode]
 public class PlaceTower : MonoBehaviour
 {
     public GameObject selectedTower;
