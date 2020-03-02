@@ -17,11 +17,15 @@ public class PlaceTower : MonoBehaviour
         RaycastHit hit;
         LayerMask mask = LayerMask.GetMask("Environment");
 
-        if (Physics.Raycast(controllerRay, out hit, 10f, mask))
+        if (Physics.Raycast(controllerRay, out hit, 5f, mask))
         {
             isPointingAtSurface = true;
 
             selectionPos = hit.point;
+        }
+        else
+        {
+            isPointingAtSurface = false;
         }
         
         if (isPointingAtSurface && OVRInput.GetDown(placeButton))
