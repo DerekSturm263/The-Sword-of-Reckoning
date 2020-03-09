@@ -14,6 +14,8 @@ public class ControllerRaycast : MonoBehaviour
     private LineRenderer lineRenderer;
     private Vector3 lineRenderEndPos;
 
+    public bool isActive;
+
     void Start()
     {
         gameManager = GameObject.FindGameObjectWithTag("GameManager");
@@ -32,15 +34,18 @@ public class ControllerRaycast : MonoBehaviour
         lineRenderer.SetPosition(0, transform.position);
         lineRenderer.SetPosition(1, lineRenderEndPos);
 
-        if (Physics.Raycast(controllerRay, out hit, 100f, mask))
+        if (isActive)
         {
-            selected = hit.collider.gameObject;
-            eventSystem.SetSelectedGameObject(gameManager.GetComponent<GameManager>().activeController.GetComponent<ControllerRaycast>().selected);
+            if (Physics.Raycast(controllerRay, out hit, 100f, mask))
+            {
+                selected = hit.collider.gameObject;
+                eventSystem.SetSelectedGameObject(gameManager.GetComponent<GameManager>().activeController.GetComponent<ControllerRaycast>().selected);
+            }
         }
-
-        if (OVRInput.GetDown(OVRInput.Button.Any))
+        else
         {
-            gameManager.GetComponent<GameManager>().activeController = this.gameObject;
+            lineRenderer.SetPosition(0, new Vector3(0, -10f, 0));
+            lineRenderer.SetPosition(1, new Vector3(0, -10f, 0));
         }
     }
 }

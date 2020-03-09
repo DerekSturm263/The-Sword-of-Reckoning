@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour
 {
     private CanvasGroup mainUI;
     private CanvasGroup settingsUI;
+    private CanvasGroup pickUpWandUI;
 
     [HideInInspector] public bool isSettingsOpen = false;
 
@@ -26,16 +27,50 @@ public class GameManager : MonoBehaviour
     [Header("Game Data")]
 
     public GameObject activeController;
+    public GameObject controllerL;
+    public GameObject controllerR;
+
+    public GameObject selectedTower;
+    public GameObject towerHighlight;
+
+    public GameObject wand;
+
     public uint currentLevel = 0;
     public uint score = 0;
     public float maxMana = 100;
     public float currentMana = 100;
 
-    void Start()
+    private void Start()
     {
         mainUI = GameObject.FindGameObjectWithTag("CanvasUI").GetComponent<CanvasGroup>();
         settingsUI = GameObject.FindGameObjectWithTag("SettingsUI").GetComponent<CanvasGroup>();
-        activeController = GameObject.FindGameObjectWithTag("RightController");
+        pickUpWandUI = GameObject.FindGameObjectWithTag("PickUpWandUI").GetComponent<CanvasGroup>();
+
+        controllerL = GameObject.FindGameObjectWithTag("LeftController");
+        controllerR = GameObject.FindGameObjectWithTag("RightController");
+
+        wand = GameObject.FindGameObjectWithTag("Wand");
+
+        activeController = controllerR;
+    }
+
+    private void Update()
+    {
+        if (OVRInput.GetDown(OVRInput.Button.PrimaryIndexTrigger))
+            activeController = controllerL;
+        else if (OVRInput.GetDown(OVRInput.Button.SecondaryIndexTrigger))
+            activeController = controllerR;
+
+        if (activeController == controllerL)
+        {
+            controllerL.GetComponent<ControllerRaycast>().isActive = true;
+            controllerR.GetComponent<ControllerRaycast>().isActive = false;
+        }
+        else
+        {
+            controllerL.GetComponent<ControllerRaycast>().isActive = false;
+            controllerR.GetComponent<ControllerRaycast>().isActive = true;
+        }
     }
 
     #region Button Methods
@@ -71,6 +106,7 @@ public class GameManager : MonoBehaviour
         mainUI.GetComponent<AudioSource>().Play();
 
         StartCoroutine(FadeOutLerp(mainUI));
+        StartCoroutine(FadeInLerp(pickUpWandUI));
     }
 
     public void OpenSettings()

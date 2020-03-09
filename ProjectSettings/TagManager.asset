@@ -12,6 +12,8 @@ TagManager:
   - Environment
   - LeftController
   - RightController
+  - PickUpWandUI
+  - Wand
   layers:
   - Default
   - TransparentFX
