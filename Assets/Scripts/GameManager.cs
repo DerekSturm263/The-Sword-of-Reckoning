@@ -33,12 +33,14 @@ public class GameManager : MonoBehaviour
     public GameObject selectedTower;
     public GameObject towerHighlight;
 
-    public GameObject wand;
+    private GameObject wand;
 
     public uint currentLevel = 0;
     public uint score = 0;
     public float maxMana = 100;
     public float currentMana = 100;
+
+    private readonly float rechargeTime = 1f;
 
     private void Start()
     {
@@ -56,11 +58,15 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
+        #region Controller Switching
+
+        // Switches the active controller whenever a controller has its Index Trigger pressed.
         if (OVRInput.GetDown(OVRInput.Button.PrimaryIndexTrigger))
             activeController = controllerL;
         else if (OVRInput.GetDown(OVRInput.Button.SecondaryIndexTrigger))
             activeController = controllerR;
 
+        // Sets each controllers' active bools.
         if (activeController == controllerL)
         {
             controllerL.GetComponent<ControllerRaycast>().isActive = true;
@@ -71,6 +77,17 @@ public class GameManager : MonoBehaviour
             controllerL.GetComponent<ControllerRaycast>().isActive = false;
             controllerR.GetComponent<ControllerRaycast>().isActive = true;
         }
+
+        #endregion
+    }
+
+    private void FixedUpdate()
+    {
+        // Recharges your mana over time.
+        if (currentMana < maxMana)
+            currentMana += Time.deltaTime * rechargeTime;
+        else
+            currentMana = maxMana;
     }
 
     #region Button Methods
@@ -121,6 +138,7 @@ public class GameManager : MonoBehaviour
         StartCoroutine(FadeOutLerp(settingsUI));
     }
 
+    // Lerp used for fading out UI elements with CanvasGroup Components.
     private IEnumerator FadeOutLerp(CanvasGroup ui)
     {
         ui.interactable = false;
@@ -135,6 +153,7 @@ public class GameManager : MonoBehaviour
         ui.alpha = 0f;
     }
 
+    // Lerp used for fading in UI elements with CanvasGroup Components.
     private IEnumerator FadeInLerp(CanvasGroup ui)
     {
         ui.interactable = true;

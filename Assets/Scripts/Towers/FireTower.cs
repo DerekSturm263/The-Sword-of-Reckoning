@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FastTower : TowerData
+public class FireTower : TowerData
 {
     public override void Shoot()
     {

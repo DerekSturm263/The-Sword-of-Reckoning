@@ -25,7 +25,7 @@ public class ControllerRaycast : MonoBehaviour
 
     void Update()
     {
-        Ray controllerRay = new Ray(transform.position + transform.forward * 0.1f, transform.forward);
+        Ray controllerRay = new Ray(transform.position + transform.forward * 0.1f, transform.forward * 0.5f);
         RaycastHit hit;
         LayerMask mask = LayerMask.GetMask("UIElement");
 
