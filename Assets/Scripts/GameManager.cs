@@ -33,14 +33,12 @@ public class GameManager : MonoBehaviour
     public GameObject selectedTower;
     public GameObject towerHighlight;
 
-    private GameObject wand;
-
     public uint currentLevel = 0;
     public uint score = 0;
     public float maxMana = 100;
     public float currentMana = 100;
 
-    private readonly float rechargeTime = 1f;
+    private readonly float rechargeTime = 5f;
 
     private void Start()
     {
@@ -50,8 +48,6 @@ public class GameManager : MonoBehaviour
 
         controllerL = GameObject.FindGameObjectWithTag("LeftController");
         controllerR = GameObject.FindGameObjectWithTag("RightController");
-
-        wand = GameObject.FindGameObjectWithTag("Wand");
 
         activeController = controllerR;
     }
@@ -79,6 +75,10 @@ public class GameManager : MonoBehaviour
         }
 
         #endregion
+
+        // Makes the "Pick up wand" pop up fade away once you pick up the wand.
+        if (controllerL.GetComponent<OVRGrabber>().grabbedObject.CompareTag("Wand"))
+            FadeOutLerp(pickUpWandUI);
     }
 
     private void FixedUpdate()
